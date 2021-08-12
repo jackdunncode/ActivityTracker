@@ -47,3 +47,5 @@ Simple .NET 5 API and React.js UI to create, delete, start and stop activities
 - Improve start/stop buttons UX to enable/disable accordingly
 - Improve error handling for uncaught API exceptions
 - Implement Redux alongside actions/reducers/selectors
+- Add pagination or scrolling for large lists
+- Enable multiple selection to stop/start/delete activities
