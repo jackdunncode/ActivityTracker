@@ -9,6 +9,7 @@ Simple .NET 5 API and React.js UI to create, delete, start and stop activities
 
 ### UI
 - [Node.js (>= v14)](https://nodejs.org/en/download/)
+- [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 - [Visual Studio Code](https://code.visualstudio.com/download)
 
 ## Running the app
@@ -49,3 +50,4 @@ Simple .NET 5 API and React.js UI to create, delete, start and stop activities
 - Implement Redux alongside actions/reducers/selectors
 - Add pagination or scrolling for large lists
 - Enable multiple selection to stop/start/delete activities
+- Store API URL in config
