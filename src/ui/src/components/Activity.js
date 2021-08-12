@@ -94,7 +94,7 @@ function Activity({ activity, onStart, onStop, onDelete }) {
               className="btn btn-primary"
               onClick={() => onStart(activity.id)}
             >
-              <i class="bi-play-circle"></i>
+              <i className="bi-play-circle"></i>
               Start
             </button>
             <button
@@ -102,7 +102,7 @@ function Activity({ activity, onStart, onStop, onDelete }) {
               className="btn btn-danger"
               onClick={() => onStop(activity.id)}
             >
-              <i class="bi-stop-circle"></i>
+              <i className="bi-stop-circle"></i>
               Stop
             </button>
 
@@ -120,7 +120,7 @@ function Activity({ activity, onStart, onStop, onDelete }) {
                     className="dropdown-item"
                     onClick={() => onDelete(activity.id)}
                   >
-                    <i class="bi-trash"></i>
+                    <i className="bi-trash"></i>
                     Delete Activity
                   </button>
                 </li>

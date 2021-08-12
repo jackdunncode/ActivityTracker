@@ -49,7 +49,7 @@ function AddActivity({ onAdd }) {
         data-bs-toggle="modal"
         data-bs-target="#addActivityModal"
       >
-        <i class="bi-plus-circle"></i>
+        <i className="bi-plus-circle"></i>
         Add New Activity
       </button>
       <div
