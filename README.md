@@ -3,7 +3,7 @@ Simple .NET 5 API and React.js UI to create, delete, start and stop activities
 
 ![Activity Tracker Screenshot](activity-tracker-screenshot.jpg)
 
-## Pre-requisites
+## Prerequisites
 
 ### API
 - [.NET 5](https://dotnet.microsoft.com/download/dotnet/5.0)
