@@ -1,10 +1,9 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ActivityTracker.Data.Repositories;
-using ActivityTracker.Data.Repositories.Dtos;
-using ActivityTracker.Web.Api.Services;
-using ActivityTracker.Web.Contracts.V1.Requests;
+using ActivityTracker.Application.Models;
+using ActivityTracker.Application.Repositories;
+using ActivityTracker.Application.Services;
 using FluentAssertions;
 using Moq;
 using Xunit;
@@ -21,26 +20,27 @@ namespace ActivityTracker.UnitTests.Services
 
             var sut = new ActivityService(activityRepositoryMock.Object, dateTimeProviderMock.Object);
 
-            var request = new CreateActivityRequest
+            const bool startImmediately = false;
+
+            var request = new Activity
             {
-                Name = "TestActivity",
-                StartImmediately = false
+                Name = "TestActivity"
             };
 
             activityRepositoryMock
                 .Setup(x => x.CreateActivityAsync(
-                    It.Is<ActivityDto>(dto => string.Equals(dto.Name, request.Name))))
-                .ReturnsAsync(new ActivityDto
+                    It.Is<Activity>(dto => string.Equals(dto.Name, request.Name))))
+                .ReturnsAsync(new Activity
                 {
                     Id = 1,
                     Name = request.Name,
-                    Laps = Enumerable.Empty<LapDto>()
+                    Laps = Enumerable.Empty<Lap>()
                 });
 
-            var response = await sut.CreateActivityAsync(request);
+            var response = await sut.CreateActivityAsync(request, startImmediately);
 
-            response.Activity.Name.Should().Be(request.Name);
-            response.Activity.Laps.Should().BeEmpty();
+            response.Name.Should().Be(request.Name);
+            response.Laps.Should().BeEmpty();
         }
 
         [Fact]
@@ -50,14 +50,15 @@ namespace ActivityTracker.UnitTests.Services
             var dateTimeProviderMock = new Mock<IDateTimeProvider>();
 
             var sut = new ActivityService(activityRepositoryMock.Object, dateTimeProviderMock.Object);
+            
+            const bool startImmediately = true;
 
-            var request = new CreateActivityRequest
+            var request = new Activity
             {
-                Name = "TestActivity",
-                StartImmediately = true
+                Name = "TestActivity"
             };
 
-            var lapDto = new LapDto
+            var lapDto = new Lap
             {
                 Id = 1,
                 StartDateTimeUtc = DateTime.UtcNow
@@ -65,21 +66,21 @@ namespace ActivityTracker.UnitTests.Services
 
             activityRepositoryMock
                 .Setup(x => x.CreateActivityAsync(
-                    It.Is<ActivityDto>(dto => string.Equals(dto.Name, request.Name))))
-                .ReturnsAsync(new ActivityDto
+                    It.Is<Activity>(dto => string.Equals(dto.Name, request.Name))))
+                .ReturnsAsync(new Activity
                 {
                     Id = 1,
                     Name = request.Name,
-                    Laps = new LapDto[] { lapDto }
+                    Laps = new Lap[] { lapDto }
                 });
 
-            var response = await sut.CreateActivityAsync(request);
+            var response = await sut.CreateActivityAsync(request, startImmediately);
 
-            response.Activity.Name.Should().Be(request.Name);
-            response.Activity.Laps.Should().HaveCount(1);
-            response.Activity.Laps.Should().OnlyContain(lapResponse => lapResponse.Id == lapDto.Id &&
-                                                                       lapResponse.StartDateTimeUtc == lapDto.StartDateTimeUtc &&
-                                                                       !lapResponse.EndDateTimeUtc.HasValue);
+            response.Name.Should().Be(request.Name);
+            response.Laps.Should().HaveCount(1);
+            response.Laps.Should().OnlyContain(lapResponse => lapResponse.Id == lapDto.Id &&
+                                                                lapResponse.StartDateTimeUtc == lapDto.StartDateTimeUtc &&
+                                                                !lapResponse.EndDateTimeUtc.HasValue);
         }
     }
 }

@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using ActivityTracker.Data.Repositories;
-using ActivityTracker.Data.Repositories.Dtos;
+using ActivityTracker.Application.Models;
+using ActivityTracker.Application.Repositories;
 using ActivityTracker.FunctionalTests.Infrastructure;
 using ActivityTracker.Web.Api;
 using ActivityTracker.Web.Contracts.V1.Responses;
@@ -33,26 +33,26 @@ namespace ActivityTracker.FunctionalTests.Features
         [Fact]
         public void GivenActivitiesInDataStore_WhenGetRequestIsMade_ReturnActivitiesInResponse()
         {
-            var activityDtos = new List<ActivityDto>
+            var activityDtos = new List<Activity>
             {
-                new ActivityDto
+                new Activity
                 {
                     Id = 1,
                     Name = "StartedActivity",
-                    Laps = new List<LapDto>
+                    Laps = new List<Lap>
                     {
-                        new LapDto
+                        new Lap
                         {
                             Id = 1,
                             StartDateTimeUtc = DateTime.UtcNow
                         }
                     }
                 },
-                new ActivityDto
+                new Activity
                 {
                     Id = 2,
                     Name = "NotYetStartedActivity",
-                    Laps = Enumerable.Empty<LapDto>()
+                    Laps = Enumerable.Empty<Lap>()
                 }
             };
 
@@ -63,7 +63,7 @@ namespace ActivityTracker.FunctionalTests.Features
                 .BDDfy();
         }
 
-        private async Task SomeActivitiesExistsInTheDataStore(IEnumerable<ActivityDto> activityDtos)
+        private async Task SomeActivitiesExistsInTheDataStore(IEnumerable<Activity> activityDtos)
         {
             var repository = Factory.Services.GetRequiredService<IActivityRepository>();
 
@@ -83,7 +83,7 @@ namespace ActivityTracker.FunctionalTests.Features
             responseMessage.StatusCode.Should().Be(statusCode);
         }
 
-        private async Task TheResponseShouldContainTheActivities(IEnumerable<ActivityDto> activityDtos)
+        private async Task TheResponseShouldContainTheActivities(IEnumerable<Activity> activityDtos)
         {
             var stringResponse = await responseMessage.Content.ReadAsStringAsync();
             var response = JsonConvert.DeserializeObject<ResponseBody<GetActivitiesResponse>>(stringResponse);

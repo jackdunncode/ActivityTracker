@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace ActivityTracker.Data.Repositories.Dtos
+namespace ActivityTracker.Application.Models
 {
-    public class LapDto
+    public class Lap
     {
         public ulong Id { get; set; }
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ActivityTracker.Web.Api.Services
+namespace ActivityTracker.Application.Services
 {
     public interface IDateTimeProvider
     {

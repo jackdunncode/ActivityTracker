@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ActivityTracker.Application.Models;
+using ActivityTracker.Application.Services;
 using ActivityTracker.Web.Api.Controllers;
-using ActivityTracker.Web.Api.Services;
 using ActivityTracker.Web.Contracts.V1.Requests;
 using ActivityTracker.Web.Contracts.V1.Responses;
 using FluentAssertions;
@@ -15,12 +16,12 @@ namespace ActivityTracker.UnitTests.Controllers
     public class ActivityControllerTests
     {
         private readonly Mock<IActivityService> activityServiceMock;
-        private readonly ActivityController activityController;
+        private readonly ActivityRestController activityRestController;
 
         public ActivityControllerTests()
         {
             activityServiceMock = new Mock<IActivityService>();
-            activityController = new ActivityController(activityServiceMock.Object);
+            activityRestController = new ActivityRestController(activityServiceMock.Object);
         }
 
         public static IEnumerable<object[]> InvalidCreateRequestData =>
@@ -41,38 +42,34 @@ namespace ActivityTracker.UnitTests.Controllers
                 StartImmediately = false
             };
 
-            var createActivityResponse = new CreateActivityResponse
+            var createActivityResponse = new Activity
             {
-                Activity = new ActivityResponse
-                {
-                    Id = 1,
-                    Name = createActivityRequest.Name,
-                    Laps = Enumerable.Empty<LapResponse>()
-                }
+                Id = 1,
+                Name = createActivityRequest.Name,
+                Laps = Enumerable.Empty<Lap>()
             };
 
             activityServiceMock.Setup(x => x.CreateActivityAsync(
-                    It.Is<CreateActivityRequest>(req =>
-                        string.Equals(req.Name, createActivityRequest.Name) &&
-                        req.StartImmediately == createActivityRequest.StartImmediately)))
+                    It.Is<Activity>(req =>
+                        string.Equals(req.Name, createActivityRequest.Name)), createActivityRequest.StartImmediately))
                 .ReturnsAsync(createActivityResponse);
 
-            var actionResult = await activityController.CreateActivityAsync(createActivityRequest);
+            var actionResult = await activityRestController.CreateActivityAsync(createActivityRequest);
             var objectResult = (ObjectResult)actionResult;
 
             objectResult.Should().BeOfType<OkObjectResult>();
             var responseBody = Assert.IsType<ResponseBody<CreateActivityResponse>>(objectResult.Value);
             responseBody.Errors.Should().BeNullOrEmpty();
-            responseBody.Result.Activity.Id.Should().Be(createActivityResponse.Activity.Id);
-            responseBody.Result.Activity.Name.Should().Be(createActivityResponse.Activity.Name);
-            responseBody.Result.Activity.Laps.Should().BeEquivalentTo(createActivityResponse.Activity.Laps);
+            responseBody.Result.Activity.Id.Should().Be(createActivityResponse.Id);
+            responseBody.Result.Activity.Name.Should().Be(createActivityResponse.Name);
+            responseBody.Result.Activity.Laps.Should().BeEquivalentTo(createActivityResponse.Laps);
         }
 
         [Theory]
         [MemberData(nameof(InvalidCreateRequestData))]
         public async Task CreateActivityAsync_InvalidRequest_ReturnsBadRequestWithAnError(CreateActivityRequest createActivityRequest)
         {
-            var actionResult = await activityController.CreateActivityAsync(createActivityRequest);
+            var actionResult = await activityRestController.CreateActivityAsync(createActivityRequest);
 
             var objectResult = (ObjectResult)actionResult;
 

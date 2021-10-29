@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ActivityTracker.Data.Repositories.Dtos;
+using ActivityTracker.Application.Models;
+using ActivityTracker.Application.Repositories;
+using ActivityTracker.Data.Persistence.Extensions;
+using ActivityTracker.Data.Persistence.Repositories.Dtos;
 
-namespace ActivityTracker.Data.Repositories
+namespace ActivityTracker.Data.Persistence.Repositories
 {
     /// <summary>
     /// Although we're not making use of async/await this would be implemented in the real persistence layer
@@ -19,13 +22,15 @@ namespace ActivityTracker.Data.Repositories
             dataStore = new SortedDictionary<ulong, ActivityDto>();
         }
 
-        public Task<ActivityDto> CreateActivityAsync(ActivityDto activityDto)
+        public Task<Activity> CreateActivityAsync(Activity activity)
         {
+            var activityDto = activity.ToActivityDto();
+
             activityDto.Id = GetNextId();
 
             dataStore.Add(activityDto.Id, activityDto);
 
-            return Task.FromResult(activityDto);
+            return Task.FromResult(activityDto.ToActivity());
         }
 
         public Task DeleteActivityAsync(ulong activityId)
@@ -35,23 +40,23 @@ namespace ActivityTracker.Data.Repositories
             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<ActivityDto>> GetActivitiesAsync()
+        public Task<IEnumerable<Activity>> GetActivitiesAsync()
         {
-            return Task.FromResult(dataStore.Select(kvp => kvp.Value));
+            return Task.FromResult(dataStore.Select(kvp => kvp.Value.ToActivity()));
         }
 
-        public Task<ActivityDto> GetActivityAsync(ulong activityId)
+        public Task<Activity> GetActivityAsync(ulong activityId)
         {
-            return dataStore.TryGetValue(activityId, out var activityDto)
-                ? Task.FromResult(activityDto)
-                : Task.FromResult((ActivityDto) null);
+            return dataStore.TryGetValue(activityId, out var activity)
+                ? Task.FromResult(activity.ToActivity())
+                : Task.FromResult((Activity) null);
         }
 
-        public Task UpdateActivityAsync(ActivityDto activityDto)
+        public Task UpdateActivityAsync(Activity activity)
         {
-            if (dataStore.ContainsKey(activityDto.Id))
+            if (dataStore.ContainsKey(activity.Id))
             {
-                dataStore[activityDto.Id] = activityDto;
+                dataStore[activity.Id] = activity.ToActivityDto();
             }
 
             return Task.CompletedTask;

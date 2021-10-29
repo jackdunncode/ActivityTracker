@@ -5,12 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="GraphQL" Version="4.6.1" />
+    <PackageReference Include="GraphQL.MicrosoftDI" Version="4.6.1" />
+    <PackageReference Include="GraphQL.Server.Authorization.AspNetCore" Version="5.0.2" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="5.0.2" />
+    <PackageReference Include="GraphQL.Server.Transports.AspNetCore.SystemTextJson" Version="5.0.2" />
+    <PackageReference Include="GraphQL.Server.Transports.Subscriptions.WebSockets" Version="5.0.2" />
+    <PackageReference Include="GraphQL.Server.Ui.GraphiQL" Version="5.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActivityTracker.Data.InMemory\ActivityTracker.Data.InMemory.csproj" />
-    <ProjectReference Include="..\ActivityTracker.Data\ActivityTracker.Data.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Data.GraphQL\ActivityTracker.Data.Graph.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Data.Persistence\ActivityTracker.Data.Persistence.csproj" />
     <ProjectReference Include="..\ActivityTracker.Web.Contracts\ActivityTracker.Web.Contracts.csproj" />
   </ItemGroup>
 

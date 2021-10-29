@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActivityTracker.Data\ActivityTracker.Data.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Application\ActivityTracker.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,7 @@
+using ActivityTracker.Data.Graph.Schema;
 using ActivityTracker.Web.Api.Ioc;
 using ActivityTracker.Web.Api.Middleware;
+using GraphQL.Server.Transports.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +26,9 @@ namespace ActivityTracker.Web.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.InstallDependencies();
+            services.InstallServices();
+            services.InstallPersistence();
+            services.InstallGraph();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -36,33 +40,38 @@ namespace ActivityTracker.Web.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(builder =>
-            {
-                builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
-            });
+            //app.UseCors(builder =>
+            //{
+            //    builder.AllowAnyOrigin()
+            //        .AllowAnyMethod()
+            //        .AllowAnyHeader();
+            //});
             
-            if (env.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{AppVersion}/swagger.json", $"{AppName} {AppVersion}"));
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c => c.SwaggerEndpoint($"/swagger/{AppVersion}/swagger.json", $"{AppName} {AppVersion}"));
+            //}
 
             app.UseExceptionHandler(new ExceptionHandlerOptions
             {
                 ExceptionHandler = JsonExceptionMiddleware.Invoke
             });
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
+
+            app.UseWebSockets();
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                // endpoints.MapControllers();
+                endpoints.MapGraphQLWebSockets<ActivitySchema>();
+                endpoints.MapGraphQL<ActivitySchema, GraphQLHttpMiddleware<ActivitySchema>>();
+                endpoints.MapGraphQLGraphiQL();
             });
         }
     }
