@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using ActivityTracker.Core.Repositories.Dtos;
+using ActivityTracker.Data.Repositories.Dtos;
 
-namespace ActivityTracker.Core.Repositories
+namespace ActivityTracker.Data.Repositories
 {
     public interface IActivityRepository
     {

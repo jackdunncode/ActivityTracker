@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActivityTracker.Core\ActivityTracker.Core.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Data.InMemory\ActivityTracker.Data.InMemory.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Data\ActivityTracker.Data.csproj" />
     <ProjectReference Include="..\ActivityTracker.Web.Contracts\ActivityTracker.Web.Contracts.csproj" />
   </ItemGroup>
 

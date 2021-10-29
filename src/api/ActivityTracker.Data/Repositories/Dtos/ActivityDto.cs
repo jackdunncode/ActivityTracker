@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ActivityTracker.Core.Repositories.Dtos
+namespace ActivityTracker.Data.Repositories.Dtos
 {
     public class ActivityDto
     {

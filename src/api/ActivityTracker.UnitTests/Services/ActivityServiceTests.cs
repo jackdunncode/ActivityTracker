@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ActivityTracker.Core.Repositories;
-using ActivityTracker.Core.Repositories.Dtos;
+using ActivityTracker.Data.Repositories;
+using ActivityTracker.Data.Repositories.Dtos;
 using ActivityTracker.Web.Api.Services;
 using ActivityTracker.Web.Contracts.V1.Requests;
 using FluentAssertions;

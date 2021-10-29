@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ActivityTracker.Core.Repositories.Dtos
+namespace ActivityTracker.Data.Repositories.Dtos
 {
     public class LapDto
     {

@@ -1,5 +1,4 @@
-﻿using ActivityTracker.Web.Api;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
@@ -15,7 +14,7 @@ namespace ActivityTracker.FunctionalTests.Infrastructure
                 .CreateDefaultBuilder()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<TStartup>();
                     //webBuilder.ConfigureTestServices(ConfigureTestAuthentication);
                 });
         }

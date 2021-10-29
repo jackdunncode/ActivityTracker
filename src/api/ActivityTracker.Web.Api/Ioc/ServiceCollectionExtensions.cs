@@ -1,4 +1,4 @@
-﻿using ActivityTracker.Core.Repositories;
+﻿using ActivityTracker.Data.Repositories;
 using ActivityTracker.Web.Api.Services;
 using Microsoft.Extensions.DependencyInjection;
 

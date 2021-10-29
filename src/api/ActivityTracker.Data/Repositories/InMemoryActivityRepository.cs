@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ActivityTracker.Core.Repositories.Dtos;
+using ActivityTracker.Data.Repositories.Dtos;
 
-namespace ActivityTracker.Core.Repositories
+namespace ActivityTracker.Data.Repositories
 {
     /// <summary>
     /// Although we're not making use of async/await this would be implemented in the real persistence layer
