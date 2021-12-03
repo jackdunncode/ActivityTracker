@@ -1,13 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using ActivityTracker.Application.Repositories;
 using ActivityTracker.Application.Services;
-using ActivityTracker.Data.Graph.Queries;
 using ActivityTracker.Data.Graph.Schema;
 using ActivityTracker.Data.Persistence.Repositories;
-using GraphQL;
+using ActivityTracker.Data.Persistence.Repositories.Dtos;
 using GraphQL.MicrosoftDI;
 using GraphQL.Server;
-using GraphQL.Types;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,17 +24,13 @@ namespace ActivityTracker.Web.Graph.Api.Ioc
 
         public static void InstallPersistence(this IServiceCollection services)
         {
-            services.AddSingleton<IActivityRepository, InMemoryActivityRepository>();
+            services.AddSingleton<IActivityRepository>(new InMemoryActivityRepository(GetSeedData()));
         }
 
         public static void InstallGraph(this IServiceCollection services, IWebHostEnvironment environment)
         {
-            //services.AddSingleton<LapType>();
-            //services.AddSingleton<ActivityType>();
-            //services.AddSingleton<ActivitiesQuery>();
-            //services.AddSingleton<ActivitiesSchema>();
-
-            services.AddSingleton<ActivitiesSchema>(serviceProvider => new ActivitiesSchema(new SelfActivatingServiceProvider(serviceProvider)));
+            services.AddSingleton(serviceProvider =>
+                new ActivitiesSchema(new SelfActivatingServiceProvider(serviceProvider)));
 
             services.AddRouting();
 
@@ -44,13 +39,78 @@ namespace ActivityTracker.Web.Graph.Api.Ioc
                 {
                     options.EnableMetrics = environment.IsDevelopment();
                     var logger = provider.GetRequiredService<ILogger<Startup>>();
-                    options.UnhandledExceptionDelegate = ctx => logger.LogError("{Error} occurred", ctx.OriginalException.Message);
+                    options.UnhandledExceptionDelegate = ctx =>
+                        logger.LogError("{Error} occurred", ctx.OriginalException.Message);
                 })
                 .AddDefaultEndpointSelectorPolicy()
                 .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
                 .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = environment.IsDevelopment())
                 .AddWebSockets()
                 .AddDataLoader();
+        }
+
+        private static SortedDictionary<ulong, ActivityDto> GetSeedData()
+        {
+            return new SortedDictionary<ulong, ActivityDto>
+            {
+                {
+                    1,
+                    new ActivityDto
+                    {
+                        Id = 1,
+                        Name = "Test1",
+                        Laps = new List<LapDto>
+                        {
+                            new LapDto
+                            {
+                                Id = 1, StartDateTimeUtc = DateTime.Now
+                            }
+                        }
+                    }
+                },
+                {
+                    2,
+                    new ActivityDto
+                    {
+                        Id = 2,
+                        Name = "Test2",
+                        Laps = new List<LapDto>
+                        {
+                            new LapDto
+                            {
+                                Id = 1, StartDateTimeUtc = DateTime.Now
+                            },
+                            new LapDto
+                            {
+                                Id = 2, StartDateTimeUtc = DateTime.Now
+                            }
+                        }
+                    }
+                },
+                {
+                    3,
+                    new ActivityDto
+                    {
+                        Id = 3,
+                        Name = "Test3",
+                        Laps = new List<LapDto>
+                        {
+                            new LapDto
+                            {
+                                Id = 1, StartDateTimeUtc = DateTime.Now
+                            },
+                            new LapDto
+                            {
+                                Id = 2, StartDateTimeUtc = DateTime.Now
+                            },
+                            new LapDto
+                            {
+                                Id = 3, StartDateTimeUtc = DateTime.Now
+                            }
+                        }
+                    }
+                }
+            };
         }
     }
 }

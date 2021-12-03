@@ -1,9 +1,9 @@
 ﻿using ActivityTracker.Application.Models;
 using GraphQL.Types;
 
-namespace ActivityTracker.Data.Graph.Schema
+namespace ActivityTracker.Data.Graph.Types
 {
-    public class LapType : ObjectGraphType<Lap>
+    public sealed class LapType : ObjectGraphType<Lap>
     {
         public LapType()
         {

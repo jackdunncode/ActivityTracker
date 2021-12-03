@@ -1,11 +1,12 @@
 ﻿using ActivityTracker.Application.Services;
 using ActivityTracker.Data.Graph.Schema;
+using ActivityTracker.Data.Graph.Types;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace ActivityTracker.Data.Graph.Queries
 {
-    public class ActivitiesQuery : ObjectGraphType<object>
+    public sealed class ActivitiesQuery : ObjectGraphType<object>
     {
         public ActivitiesQuery()
         {
@@ -14,7 +15,7 @@ namespace ActivityTracker.Data.Graph.Queries
                 .Name("activities")
                 .Resolve()
                 .WithService<IActivityService>()
-                .ResolveAsync(async (context, service) =>
+                .ResolveAsync(async (_, service) =>
                 {
                     var activities = await service.GetActivitiesAsync();
                     return activities;

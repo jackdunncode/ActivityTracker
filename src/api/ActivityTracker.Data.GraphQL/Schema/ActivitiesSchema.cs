@@ -1,4 +1,6 @@
 ﻿using System;
+using ActivityTracker.Application.Services;
+using ActivityTracker.Data.Graph.Mutations;
 using ActivityTracker.Data.Graph.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,7 @@ namespace ActivityTracker.Data.Graph.Schema
             : base(serviceProvider)
         {
             Query = new ActivitiesQuery();
+            Mutation = new ActivityMutation(serviceProvider.GetRequiredService<IActivityService>());
         }
     }
 }

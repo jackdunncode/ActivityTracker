@@ -1,11 +1,12 @@
 ﻿using ActivityTracker.Application.Models;
 using ActivityTracker.Application.Services;
+using ActivityTracker.Data.Graph.Schema;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
-namespace ActivityTracker.Data.Graph.Schema
+namespace ActivityTracker.Data.Graph.Types
 {
-    public class ActivityType : ObjectGraphType<Activity>
+    public sealed class ActivityType : ObjectGraphType<Activity>
     {
         public ActivityType()
         {
