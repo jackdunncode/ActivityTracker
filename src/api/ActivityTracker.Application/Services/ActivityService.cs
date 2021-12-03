@@ -112,7 +112,7 @@ namespace ActivityTracker.Application.Services
             return activity;
         }
 
-        public async Task<IEnumerable<Lap>> GetLapsAsync(ulong activityId)
+        public async Task<IEnumerable<Lap>> GetLapsByActivityIdAsync(ulong activityId)
         {
             var activities = await GetActivitiesAsync();
             return activities.FirstOrDefault(activity => activity.Id == activityId)?.Laps;

@@ -11,6 +11,6 @@ namespace ActivityTracker.Application.Services
         Task<IEnumerable<Activity>> GetActivitiesAsync();
         Task<Activity> StartActivityAsync(ulong activityId);
         Task<Activity> StopActivityAsync(ulong activityId);
-        Task<IEnumerable<Lap>> GetLapsAsync(ulong activityId);
+        Task<IEnumerable<Lap>> GetLapsByActivityIdAsync(ulong activityId);
     }
 }

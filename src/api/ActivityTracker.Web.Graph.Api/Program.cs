@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace ActivityTracker.Web.Api
+namespace ActivityTracker.Web.Graph.Api
 {
     public class Program
     {

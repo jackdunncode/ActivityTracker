@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Web.Api", "ActivityTracker.Web.Api\ActivityTracker.Web.Api.csproj", "{8799907D-138D-4BD9-8AEF-C2B62B0907A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Web.Graph.Api", "ActivityTracker.Web.Graph.Api\ActivityTracker.Web.Graph.Api.csproj", "{8799907D-138D-4BD9-8AEF-C2B62B0907A9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Web.Contracts", "ActivityTracker.Web.Contracts\ActivityTracker.Web.Contracts.csproj", "{70DD7639-58F3-4078-9FDC-5D9E12B42379}"
 EndProject
@@ -13,11 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.UnitTests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.FunctionalTests", "ActivityTracker.FunctionalTests\ActivityTracker.FunctionalTests.csproj", "{FD8AC99B-201F-4373-BD64-AC7657B2C100}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityTracker.Data.Graph", "ActivityTracker.Data.GraphQL\ActivityTracker.Data.Graph.csproj", "{0ECE760A-8BD0-4F08-B010-5C0CBBCDF3C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Data.Graph", "ActivityTracker.Data.GraphQL\ActivityTracker.Data.Graph.csproj", "{0ECE760A-8BD0-4F08-B010-5C0CBBCDF3C6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Data.Persistence", "ActivityTracker.Data.Persistence\ActivityTracker.Data.Persistence.csproj", "{B1F33480-91FB-47C1-A0D7-B402E517C41A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityTracker.Application", "ActivityTracker.Application\ActivityTracker.Application.csproj", "{86E32EA2-8726-49FD-B4F8-D491544625A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Application", "ActivityTracker.Application\ActivityTracker.Application.csproj", "{86E32EA2-8726-49FD-B4F8-D491544625A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Web.Rest.Api", "ActivityTracker.Web.Rest.Api\ActivityTracker.Web.Rest.Api.csproj", "{7CFC8A3A-A390-40CE-A187-EE15F19AF201}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{86E32EA2-8726-49FD-B4F8-D491544625A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86E32EA2-8726-49FD-B4F8-D491544625A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86E32EA2-8726-49FD-B4F8-D491544625A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

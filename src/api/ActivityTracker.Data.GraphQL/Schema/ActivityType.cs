@@ -1,18 +1,25 @@
 ﻿using ActivityTracker.Application.Models;
 using ActivityTracker.Application.Services;
+using GraphQL.MicrosoftDI;
 using GraphQL.Types;
 
 namespace ActivityTracker.Data.Graph.Schema
 {
-    public sealed class ActivityType : ObjectGraphType<Activity>
+    public class ActivityType : ObjectGraphType<Activity>
     {
-        public ActivityType(IActivityService activityService)
+        public ActivityType()
         {
             Field(activity => activity.Id);
             Field(activity => activity.Name);
-            Field(activity => activity.Laps);
-
-            Field<LapType>("laps", resolve: ctx => activityService.GetLapsAsync(ctx.Source.Id));
+            Field<ListGraphType<LapType>>()
+                .Name("laps")
+                .Resolve()
+                .WithService<IActivityService>()
+                .ResolveAsync(async (context, service) =>
+                {
+                    var laps = await service.GetLapsByActivityIdAsync(context.Source.Id);
+                    return laps;
+                });
         }
     }
 }

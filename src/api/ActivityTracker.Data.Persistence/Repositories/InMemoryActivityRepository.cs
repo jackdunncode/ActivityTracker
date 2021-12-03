@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ActivityTracker.Application.Models;
@@ -19,7 +20,45 @@ namespace ActivityTracker.Data.Persistence.Repositories
 
         public InMemoryActivityRepository()
         {
-            dataStore = new SortedDictionary<ulong, ActivityDto>();
+            dataStore = new SortedDictionary<ulong, ActivityDto>
+            {
+                {
+                    1,
+                    new ActivityDto
+                    {
+                        Id = 1,
+                        Name = "Test1",
+                        Laps = new List<LapDto> {new LapDto {Id = 1, StartDateTimeUtc = DateTime.Now}}
+                    }
+                },
+                {
+                    2,
+                    new ActivityDto
+                    {
+                        Id = 2,
+                        Name = "Test2",
+                        Laps = new List<LapDto>
+                        {
+                            new LapDto {Id = 1, StartDateTimeUtc = DateTime.Now},
+                            new LapDto {Id = 2, StartDateTimeUtc = DateTime.Now}
+                        }
+                    }
+                },
+                {
+                    3,
+                    new ActivityDto
+                    {
+                        Id = 3,
+                        Name = "Test3",
+                        Laps = new List<LapDto>
+                        {
+                            new LapDto {Id = 1, StartDateTimeUtc = DateTime.Now},
+                            new LapDto {Id = 2, StartDateTimeUtc = DateTime.Now},
+                            new LapDto {Id = 3, StartDateTimeUtc = DateTime.Now}
+                        }
+                    }
+                }
+            };
         }
 
         public Task<Activity> CreateActivityAsync(Activity activity)

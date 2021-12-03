@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActivityTracker.Web.Api\ActivityTracker.Web.Api.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Web.Api\ActivityTracker.Web.Graph.Api.csproj" />
   </ItemGroup>
 
 </Project>
