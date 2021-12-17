@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 import { toast } from 'react-toastify';
 
+import { GET_ACTIVITIES } from '../helpers/graphQueries';
+import {
+  CREATE_ACTIVITY,
+  DELETE_ACTIVITY,
+  START_ACTIVITY,
+  STOP_ACTIVITY,
+} from '../helpers/graphMutations';
 import Activities from './Activities';
 import AddActivity from './AddActivity';
 
@@ -25,107 +33,117 @@ const baseUrl = 'https://localhost:5001';
 const activityUrl = baseUrl + '/activity';
 
 function ActivityManager() {
-  const [activities, setActivities] = useState([]);
-  useEffect(() => {
-    const getActivities = async () => {
-      const fetchActivities = async () => {
-        try {
-          const res = await fetch(activityUrl);
-          const data = await res.json();
-          return data;
-        } catch (error) {
-          alert(error);
-          return;
-        }
-      };
+  /* MUTATIONS/QUERIES */
 
-      const activitiesResponse = await fetchActivities();
-      if (activitiesResponse) {
-        if (activitiesResponse.errors?.length > 0) {
-          displayErrors(activitiesResponse.errors);
-          return;
-        }
+  const {
+    data: getActivitiesData,
+    loading: getActivitiesLoading,
+    error: getActivitiesError,
+  } = useQuery(GET_ACTIVITIES);
 
-        setActivities(activitiesResponse.result.activities);
-      }
-    };
-    getActivities();
-  }, []);
+  const [
+    createActivityMutation,
+    {
+      data: createActivityData,
+      loading: createActivityLoading,
+      error: createActivityError,
+    },
+  ] = useMutation(CREATE_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITIES],
+    onError: (error) => console.log(error),
+    // update(cache, { data: { createActivityData } }) {
+    //   cache.modify({
+    //     fields: {
+    //       activities(existingActivities = []) {
+    //         const newActivityRef = cache.writeFragment({
+    //           data: createActivityData,
+    //           fragment: gql`
+    //             fragment NewActivity on Activity {
+    //               name
+    //             }
+    //           `,
+    //         });
+    //         return [...existingActivities, newActivityRef];
+    //       },
+    //     },
+    //   });
+    // },
+  });
+
+  const [
+    deleteActivityMutation,
+    {
+      data: deleteActivityData,
+      loading: deleteActivityLoading,
+      error: deleteActivityError,
+    },
+  ] = useMutation(DELETE_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITIES],
+    onError: (error) => console.log(error),
+  });
+
+  const [
+    startActivityMutation,
+    {
+      data: startActivityData,
+      loading: startActivityLoading,
+      error: startActivityError,
+    },
+  ] = useMutation(START_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITIES],
+    onError: (error) => console.log(error),
+  });
+
+  const [
+    stopActivityMutation,
+    {
+      data: stopActivityData,
+      loading: stopActivityLoading,
+      error: stopActivityError,
+    },
+  ] = useMutation(STOP_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITIES],
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  /* EVENT HANDLERS */
 
   const addActivity = async (newActivity) => {
-    try {
-      const res = await fetch(activityUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newActivity),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        displayErrors(data.errors);
-        return;
-      }
-
-      setActivities([...activities, data.result.activity]);
-    } catch (error) {
-      alert(error);
-      return;
-    }
+    createActivityMutation({
+      variables: {
+        activity: newActivity,
+      },
+    });
   };
 
   const deleteActivity = async (id) => {
-    try {
-      const res = await fetch(`${activityUrl}/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        displayErrors(data.errors);
-        return;
-      }
-
-      setActivities(activities.filter((activity) => activity.id !== id));
-    } catch (error) {
-      alert(error);
-      return;
-    }
+    deleteActivityMutation({
+      variables: {
+        activityId: id,
+      },
+    });
   };
 
-  const startActivity = async (id) =>
-    await performStartOrStopActivity('start', id);
-
-  const stopActivity = async (id) =>
-    await performStartOrStopActivity('stop', id);
-
-  const performStartOrStopActivity = async (action, id) => {
-    try {
-      const res = await fetch(`${activityUrl}/${id}/${action}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        displayErrors(data.errors);
-        return;
-      }
-
-      const mergeArrayWithObject = (arr, obj) =>
-        arr && arr.map((t) => (t.id === obj.id ? obj : t));
-
-      setActivities(mergeArrayWithObject(activities, data.result.activity));
-    } catch (error) {
-      alert(error);
-      return;
-    }
+  const startActivity = async (id) => {
+    startActivityMutation({
+      variables: {
+        activityId: id,
+      },
+    });
   };
+
+  const stopActivity = async (id) => {
+    stopActivityMutation({
+      variables: {
+        activityId: id,
+      },
+    });
+  };
+
+  if (getActivitiesLoading) return <p>Loading...</p>;
+  if (getActivitiesError) return <p>Error :(</p>;
 
   return (
     <>
@@ -134,9 +152,9 @@ function ActivityManager() {
           <AddActivity onAdd={addActivity} />
         </div>
         <div className="p-2 bg-light border">
-          {activities.length > 0 ? (
+          {getActivitiesData.activities.length > 0 ? (
             <Activities
-              activities={activities}
+              activities={getActivitiesData.activities}
               onStart={startActivity}
               onStop={stopActivity}
               onDelete={deleteActivity}

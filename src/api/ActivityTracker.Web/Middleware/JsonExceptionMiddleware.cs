@@ -6,7 +6,7 @@ using ActivityTracker.Web.Contracts.V1.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
-namespace ActivityTracker.Web.Rest.Api.Middleware
+namespace ActivityTracker.Web.Middleware
 {
     public static class JsonExceptionMiddleware
     {

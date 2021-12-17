@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ActivityTracker.Application.Models;
+﻿using ActivityTracker.Application.Models;
 using ActivityTracker.Application.Services;
 using ActivityTracker.Data.Graph.Types;
 using ActivityTracker.Web.Contracts.V1.Requests;
@@ -17,6 +12,7 @@ namespace ActivityTracker.Data.Graph.Mutations
         public ActivityMutation(IActivityService activityService)
         {
             Name = "Mutation";
+
             Field<ActivityType>(
                 "createActivity",
                 arguments: new QueryArguments(
@@ -35,7 +31,7 @@ namespace ActivityTracker.Data.Graph.Mutations
                     return activityService.CreateActivityAsync(activity, createActivityRequest.StartImmediately);
                 });
 
-            Field<ActivityType>(
+            Field<ULongGraphType>(
                 "deleteActivity",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<ULongGraphType>>
@@ -46,6 +42,32 @@ namespace ActivityTracker.Data.Graph.Mutations
                 {
                     var activityId = ctx.GetArgument<ulong>("activityId");
                     return activityService.DeleteActivityAsync(activityId);
+                });
+
+            Field<ActivityType>(
+                "startActivity",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ULongGraphType>>
+                    {
+                        Name = "activityId"
+                    }),
+                resolve: ctx =>
+                {
+                    var activityId = ctx.GetArgument<ulong>("activityId");
+                    return activityService.StartActivityAsync(activityId);
+                });
+
+            Field<ActivityType>(
+                "stopActivity",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<ULongGraphType>>
+                    {
+                        Name = "activityId"
+                    }),
+                resolve: ctx =>
+                {
+                    var activityId = ctx.GetArgument<ulong>("activityId");
+                    return activityService.StopActivityAsync(activityId);
                 });
         }
     }

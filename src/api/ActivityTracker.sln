@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityTracker.Web.Rest.Api", "ActivityTracker.Web.Rest.Api\ActivityTracker.Web.Rest.Api.csproj", "{7CFC8A3A-A390-40CE-A187-EE15F19AF201}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityTracker.Web", "ActivityTracker.Web\ActivityTracker.Web.csproj", "{2BACBF22-5335-4546-94B1-A8C7A7FB130D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CFC8A3A-A390-40CE-A187-EE15F19AF201}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BACBF22-5335-4546-94B1-A8C7A7FB130D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BACBF22-5335-4546-94B1-A8C7A7FB130D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BACBF22-5335-4546-94B1-A8C7A7FB130D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BACBF22-5335-4546-94B1-A8C7A7FB130D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

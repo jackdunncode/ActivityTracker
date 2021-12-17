@@ -1,5 +1,5 @@
+using ActivityTracker.Web.Middleware;
 using ActivityTracker.Web.Rest.Api.Ioc;
-using ActivityTracker.Web.Rest.Api.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

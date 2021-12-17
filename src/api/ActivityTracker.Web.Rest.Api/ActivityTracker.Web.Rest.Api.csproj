@@ -12,6 +12,7 @@
     <ProjectReference Include="..\ActivityTracker.Application\ActivityTracker.Application.csproj" />
     <ProjectReference Include="..\ActivityTracker.Data.Persistence\ActivityTracker.Data.Persistence.csproj" />
     <ProjectReference Include="..\ActivityTracker.Web.Contracts\ActivityTracker.Web.Contracts.csproj" />
+    <ProjectReference Include="..\ActivityTracker.Web\ActivityTracker.Web.csproj" />
   </ItemGroup>
 
 </Project>

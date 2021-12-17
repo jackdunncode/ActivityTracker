@@ -1,5 +1,4 @@
 ﻿using ActivityTracker.Application.Services;
-using ActivityTracker.Data.Graph.Schema;
 using ActivityTracker.Data.Graph.Types;
 using GraphQL.MicrosoftDI;
 using GraphQL.Types;

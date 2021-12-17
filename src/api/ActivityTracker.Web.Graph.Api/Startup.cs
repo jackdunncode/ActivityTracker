@@ -1,13 +1,10 @@
-using System;
-using ActivityTracker.Data.Graph.Queries;
 using ActivityTracker.Data.Graph.Schema;
 using ActivityTracker.Web.Graph.Api.Ioc;
-using GraphQL.Server;
+using ActivityTracker.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace ActivityTracker.Web.Graph.Api
 {
@@ -29,6 +26,8 @@ namespace ActivityTracker.Web.Graph.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services.InstallServices();
             services.InstallPersistence();
             services.InstallGraph(Environment);
@@ -37,9 +36,18 @@ namespace ActivityTracker.Web.Graph.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app)
         {
-            if (Environment.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+            
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = JsonExceptionMiddleware.Invoke
+            });
+            
             app.UseWebSockets();
             app.UseGraphQLWebSockets<ActivitiesSchema>();
             app.UseGraphQL<ActivitiesSchema>();

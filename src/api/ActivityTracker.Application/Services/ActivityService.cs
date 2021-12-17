@@ -42,9 +42,10 @@ namespace ActivityTracker.Application.Services
             return result;
         }
 
-        public Task DeleteActivityAsync(ulong activityId)
+        public async Task<ulong> DeleteActivityAsync(ulong activityId)
         {
-            return activityRepository.DeleteActivityAsync(activityId);
+            await activityRepository.DeleteActivityAsync(activityId);
+            return activityId;
         }
 
         public Task<IEnumerable<Activity>> GetActivitiesAsync()
@@ -106,6 +107,7 @@ namespace ActivityTracker.Application.Services
             }
 
             lastLap.EndDateTimeUtc = dateTimeProvider.GetDateTimeUtc();
+            activity.Laps = laps;
 
             await activityRepository.UpdateActivityAsync(activity);
 

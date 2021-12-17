@@ -8,7 +8,6 @@ using ActivityTracker.Application.Models;
 using ActivityTracker.Application.Repositories;
 using ActivityTracker.FunctionalTests.Infrastructure;
 using ActivityTracker.Web.Contracts.V1.Responses;
-using ActivityTracker.Web.Graph.Api;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;

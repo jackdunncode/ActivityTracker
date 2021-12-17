@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using ActivityTracker.Application.Models;
 using ActivityTracker.Application.Services;
-using ActivityTracker.Web.Api.Controllers;
 using ActivityTracker.Web.Contracts.V1.Requests;
 using ActivityTracker.Web.Contracts.V1.Responses;
 using FluentAssertions;
