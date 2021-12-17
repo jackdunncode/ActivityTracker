@@ -29,8 +29,7 @@ const displayErrors = (errors) => {
   }
 };
 
-const baseUrl = 'https://localhost:5001';
-const activityUrl = baseUrl + '/activity';
+const alertError = (error) => alert(error);
 
 function ActivityManager() {
   /* MUTATIONS/QUERIES */
@@ -39,7 +38,9 @@ function ActivityManager() {
     data: getActivitiesData,
     loading: getActivitiesLoading,
     error: getActivitiesError,
-  } = useQuery(GET_ACTIVITIES);
+  } = useQuery(GET_ACTIVITIES, {
+    onError: alertError,
+  });
 
   const [
     createActivityMutation,
@@ -50,7 +51,7 @@ function ActivityManager() {
     },
   ] = useMutation(CREATE_ACTIVITY, {
     refetchQueries: [GET_ACTIVITIES],
-    onError: (error) => console.log(error),
+    onError: alertError,
     // update(cache, { data: { createActivityData } }) {
     //   cache.modify({
     //     fields: {
@@ -79,7 +80,7 @@ function ActivityManager() {
     },
   ] = useMutation(DELETE_ACTIVITY, {
     refetchQueries: [GET_ACTIVITIES],
-    onError: (error) => console.log(error),
+    onError: alertError,
   });
 
   const [
@@ -91,7 +92,7 @@ function ActivityManager() {
     },
   ] = useMutation(START_ACTIVITY, {
     refetchQueries: [GET_ACTIVITIES],
-    onError: (error) => console.log(error),
+    onError: alertError,
   });
 
   const [
@@ -103,9 +104,7 @@ function ActivityManager() {
     },
   ] = useMutation(STOP_ACTIVITY, {
     refetchQueries: [GET_ACTIVITIES],
-    onError: (error) => {
-      alert(error);
-    },
+    onError: alertError,
   });
 
   /* EVENT HANDLERS */
